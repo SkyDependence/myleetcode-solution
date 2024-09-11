@@ -7,43 +7,29 @@
 // @lc code=start
 class Solution {
     public int maximizeWin(int[] prizePositions, int k) {
+        int n = prizePositions.length;
+        int[] dp = new int[n + 1];
+        int maxWin = 0;
+
         int left = 0;
-        int right = left + 1;
-        int maxLeft = left;
-        int maxRight = right;
-        int max1 = 0;
-        while (right < prizePositions.length) {
-            if (prizePositions[right] - prizePositions[left] > k) {
+        for (int right = 0; right < n; right++) {
+            while (prizePositions[right] - prizePositions[left] > k) {
                 left++;
-                continue;
             }
-            if (right - left + 1 > max1) {
-                maxLeft = left;
-                maxRight = right;
-                max1 = right - left + 1;
-            }
-            right++;
+            // dp[right + 1] 表示从 0 到 right 能获得的最大奖品数
+            dp[right + 1] = Math.max(dp[right], right - left + 1);
         }
+
         left = 0;
-        right = left + 1;
-        int max2 = 0;
-        while (right < prizePositions.length) {
-            if (prizePositions[right] - prizePositions[left] > k) {
+        for (int right = 0; right < n; right++) {
+            while (prizePositions[right] - prizePositions[left] > k) {
                 left++;
-                continue;
             }
-            int length = right - left + 1;
-            if (maxLeft <= right && maxRight >= right) {
-                length -= left - maxLeft + 1;
-            } else if (maxRight >= left && maxRight <= right) {
-                length -= maxRight - left + 1;
-            }
-            if (length > max2) {
-                max2 = length;
-            }
-            right++;
+            // 尝试把 [left, right] 作为第二段
+            maxWin = Math.max(maxWin, right - left + 1 + dp[left]);
         }
-        return max1 + max2;
+
+        return maxWin;
     }
 }
 // @lc code=end
