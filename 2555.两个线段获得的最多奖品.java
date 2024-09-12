@@ -7,29 +7,44 @@
 // @lc code=start
 class Solution {
     public int maximizeWin(int[] prizePositions, int k) {
-        int n = prizePositions.length;
-        int[] dp = new int[n + 1];
-        int maxWin = 0;
-
         int left = 0;
-        for (int right = 0; right < n; right++) {
-            while (prizePositions[right] - prizePositions[left] > k) {
+        int right = left + 1;
+        int maxLeft = left;
+        int maxRight = right;
+        int max1 = 0;
+        while (right < prizePositions.length) {
+            if (prizePositions[right] - prizePositions[left] > k) {
                 left++;
+                continue;
             }
-            // dp[right + 1] 表示从 0 到 right 能获得的最大奖品数
-            dp[right + 1] = Math.max(dp[right], right - left + 1);
+            if (right - left + 1 > max1) {
+                maxLeft = left;
+                maxRight = right;
+                max1 = right - left + 1;
+            }
+            right++;
         }
-
         left = 0;
-        for (int right = 0; right < n; right++) {
-            while (prizePositions[right] - prizePositions[left] > k) {
+        right = left + 1;
+        int max2 = 0;
+        while (right < prizePositions.length) {
+            if (prizePositions[right] - prizePositions[left] > k) {
                 left++;
+                continue;
             }
-            // 尝试把 [left, right] 作为第二段
-            maxWin = Math.max(maxWin, right - left + 1 + dp[left]);
+            int length = right - left + 1;
+            if (!(left > maxRight || right < maxLeft)) {
+                // 如果重叠，扣除重叠部分的长度
+                int overlapLeft = Math.max(left, maxLeft);
+                int overlapRight = Math.min(right, maxRight);
+                length -= (overlapRight - overlapLeft + 1);
+            }
+            if (length > max2) {
+                max2 = length;
+            }
+            right++;
         }
-
-        return maxWin;
+        return max1 + max2;
     }
 }
 // @lc code=end
