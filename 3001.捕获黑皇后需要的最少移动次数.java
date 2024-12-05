@@ -1,10 +1,12 @@
-import java.util.*;
+/*
+ * @lc app=leetcode.cn id=3001 lang=java
+ *
+ * [3001] 捕获黑皇后需要的最少移动次数
+ */
 
-public class test {
-    public static void main(String[] args) {
-        System.out.println(minMovesToCaptureTheQueen(6, 5, 3, 5, 5, 5));
-    }
-    public static int minMovesToCaptureTheQueen(int a, int b, int c, int d, int e, int f) {
+// @lc code=start
+class Solution {
+    public int minMovesToCaptureTheQueen(int a, int b, int c, int d, int e, int f) {
         int res = 2;
         if (a == e) {
             int left;
@@ -77,5 +79,6 @@ public class test {
         }
         return res;
     }
-
 }
+// @lc code=end
+
