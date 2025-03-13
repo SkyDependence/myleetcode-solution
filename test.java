@@ -2,7 +2,24 @@ import java.util.*;
 
 public class test {
     public static void main(String[] args) {
-        System.out.println(subarraySum(new int[]{1,2,1,2,1}, 3));
+        rotate(new int[] {1,2,3,4,5,6,7},3);
+
+    }
+
+    public static void rotate(int[] nums, int k) {
+        int len = nums.length;
+        int step = k % len;
+        int[] temp = Arrays.copyOf(nums, len);
+        int[] res = new int[len];
+        int count = 0;
+        for (int i = step; i < len; i++) {
+            res[i] = temp[count++];
+        }
+        for (int i = 0; i < step; i++) {
+            res[i] = temp[count++];
+        }
+        nums = res;
+        System.out.println(nums);
     }
 
     public static int subarraySum(int[] nums, int k) {
