@@ -2,8 +2,28 @@ import java.util.*;
 
 public class test {
     public static void main(String[] args) {
-        rotate(new int[] {1,2,3,4,5,6,7},3);
-
+        setZeroes(new int[][] {{0,1,2,0},{3,4,5,2},{1,3,1,5}});
+    }
+    
+    public static void setZeroes(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] temp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            temp[i] = Arrays.copyOf(matrix[i], n);
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (temp[i][j] == 0) {
+                    for (int k = 0; k < n; k++) {
+                        matrix[i][k] = 0;
+                    }
+                    for (int k = 0; k < m; k++) {
+                        matrix[k][j] = 0;
+                    }
+                }
+            }
+        }
     }
 
     public static void rotate(int[] nums, int k) {
