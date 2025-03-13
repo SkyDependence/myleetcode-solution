@@ -2,7 +2,38 @@ import java.util.*;
 
 public class test {
     public static void main(String[] args) {
-        System.out.println(minMovesToCaptureTheQueen(6, 5, 3, 5, 5, 5));
+        System.out.println(subarraySum(new int[]{1,2,1,2,1}, 3));
+    }
+
+    public static int subarraySum(int[] nums, int k) {
+        int count = 0;
+        int left = 0, right = 0;
+        Arrays.sort(nums);
+        if (nums[0] > k) {
+            return 0;
+        }
+        while (left <= right) {
+            int sum = 0;
+            for (int i = left; i <= right; i++) {
+                sum += nums[i];
+            }
+            if (sum == k) {
+                count++;
+                left++;
+            } else if (sum < k) {
+                right++;
+            } else {
+                left++;
+            }
+            if (right == nums.length) {
+                left++;
+                right = left;
+            }
+            if (left == nums.length) {
+                break;
+            }
+        }
+        return count;
     }
     public static int minMovesToCaptureTheQueen(int a, int b, int c, int d, int e, int f) {
         int res = 2;
