@@ -2,7 +2,29 @@ import java.util.*;
 
 public class test {
     public static void main(String[] args) {
-        spiralOrder(new int[][] { { 1,2,3,4 }, { 5,6,7,8 }, { 9,10,11,12 } });
+        jump(new int[] { 1,2,1,1,1 });
+    }
+
+    public static int jump(int[] nums) {
+        int step = 0;
+        int start = 0;
+        int l = nums.length;
+        if (l == 1) {
+            return 0;
+        }
+        while (start + nums[start] < l - 1) {
+            int maxPos = 0; 
+            int temp = nums[start] + start;
+            for (int i = start + 1; i <= temp; i++) {
+                if (maxPos <= nums[i]) {
+                    maxPos = nums[i];
+                    start = i;
+                }
+            }
+            step++;
+        }
+        step++;
+        return step;
     }
 
     public static List<Integer> spiralOrder(int[][] matrix) {
