@@ -1,8 +1,74 @@
 import java.util.*;
 
 public class test {
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == p || root == q || root == null) {
+            return root;
+        }
+
+        // 后序遍历
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        // 如果分别在左右子树
+        if (left != null && right != null) {
+            return root;
+        }
+
+        // 在同一颗子树
+        return left == null ? right : left;
+    }
+
+    // 添加测试方法
     public static void main(String[] args) {
-        jump(new int[] { 1,2,1,1,1 });
+
+        // 构建测试树
+        //       3
+        //     /   \
+        //    5     1
+        //   / \   / \
+        //  6   2 0   8
+        //     / \
+        //    7   4
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(5);
+        root.right = new TreeNode(1);
+        root.left.left = new TreeNode(6);
+        root.left.right = new TreeNode(2);
+        root.right.left = new TreeNode(0);
+        root.right.right = new TreeNode(8);
+        root.left.right.left = new TreeNode(7);
+        root.left.right.right = new TreeNode(4);
+
+        // 测试用例1：p = 5, q = 1
+        TreeNode p1 = root.left; // 节点5
+        TreeNode q1 = root.right; // 节点1
+        TreeNode result1 = lowestCommonAncestor(root, p1, q1);
+        System.out.println("测试1 - p=5, q=1 的LCA是: " + result1.val); // 预期输出：3
+
+        // 测试用例2：p = 5, q = 4
+        TreeNode p2 = root.left; // 节点5
+        TreeNode q2 = root.left.right.right; // 节点4
+        TreeNode result2 = lowestCommonAncestor(root, p2, q2);
+        System.out.println("测试2 - p=5, q=4 的LCA是: " + result2.val); // 预期输出：5
+
+        // 测试用例3：p = 6, q = 4
+        TreeNode p3 = root.left.left; // 节点6
+        TreeNode q3 = root.left.right.right; // 节点4
+        TreeNode result3 = lowestCommonAncestor(root, p3, q3);
+        System.out.println("测试3 - p=6, q=4 的LCA是: " + result3.val); // 预期输出：5
+    }
+    // @lc code=end
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+
     }
 
     public static int jump(int[] nums) {
@@ -13,7 +79,7 @@ public class test {
             return 0;
         }
         while (start + nums[start] < l - 1) {
-            int maxPos = 0; 
+            int maxPos = 0;
             int temp = nums[start] + start;
             for (int i = start + 1; i <= temp; i++) {
                 if (maxPos <= nums[i]) {
@@ -33,7 +99,7 @@ public class test {
         int n = matrix[0].length;
         int top = 0, left = 0, bottom = m - 1, right = n - 1;
         while (top <= bottom && left <= right) {
-            
+
             for (int col = left; col <= right; col++) {
                 res.add(matrix[top][col]);
             }
@@ -53,7 +119,7 @@ public class test {
         }
         return res;
     }
-    
+
     public static void setZeroes(int[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
@@ -121,6 +187,7 @@ public class test {
         }
         return count;
     }
+
     public static int minMovesToCaptureTheQueen(int a, int b, int c, int d, int e, int f) {
         int res = 2;
         if (a == e) {
